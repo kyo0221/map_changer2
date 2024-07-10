@@ -4,12 +4,10 @@
 #include "map_changer2/visibility_control.h"
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/bool.hpp"
-#include "std_msgs/msg/string.hpp"
-#include "std_msgs/msg/float32.hpp"
-#include "std_msgs/msg/int8.hpp"
-#include "nav_msgs/srv/load_map.hpp"
 
+#include <std_srvs/srv/set_bool.hpp>
+#include <nav2_msgs/srv/load_map.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 
 namespace map_changer2
 {
@@ -17,7 +15,7 @@ namespace map_changer2
 class MapChanger : public rclcpp::Node
 {
 public:
-  MapChanger();
+  explicit MapChanger(const rclcpp::NodeOptions& options = rclcpp::NodeOptions());
 
   virtual ~MapChanger();
 
@@ -34,7 +32,7 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr initial_pose_pub_;
 
   rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr change_call_;
-  rclcpp::Client<nav_msgs::srv::LoadMap>::SharedPtr change_map_;
+  rclcpp::Client<nav2_msgs::srv::LoadMap>::SharedPtr change_map_;
 
 
   bool change_flag_;
