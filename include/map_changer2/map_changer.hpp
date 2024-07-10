@@ -5,7 +5,9 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-#include <std_msgs/String.h>
+#include <string>
+
+#include <std_msgs/msg/string.hpp>
 #include <std_srvs/srv/set_bool.hpp>
 #include <nav2_msgs/srv/load_map.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
@@ -37,10 +39,18 @@ private:
   rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr change_call_;
   rclcpp::Client<nav2_msgs::srv::LoadMap>::SharedPtr change_map_;
 
+  nav2_msgs::srv::LoadMap::Request map_req;
+  nav2_msgs::srv::LoadMap::Response map_res;
+
 
   bool change_flag_;
   int map_id;
-  int count;
+  size_t count;
+
+  double pose_x;
+  double pose_y;
+  double orientation_z;
+  double orientation_w;
 };
 
 }  // namespace map_changer2
