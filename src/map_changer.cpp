@@ -14,13 +14,13 @@ bool MapChanger::change_map_callback(const std::shared_ptr<std_srvs::srv::SetBoo
                                         std::shared_ptr<std_srvs::srv::SetBool::Response> response)
 {
     change_flag_ = true;
-    count = request.data;
+    count = request->data;
 
     return true;
 }
 
 bool MapChanger::read_yaml(){
-    YAML::Node yaml_pass = YAML::LoadFile(map_name_);
+    YAML::Node yaml_pass = YAML::LoadFile(map_name_.data());
     YAML::Node map_yaml;
 
     map_yaml = yaml_pass["map_list"];
@@ -29,7 +29,7 @@ bool MapChanger::read_yaml(){
         exit(0);
     }else{
         map_id = map_yaml[count]["map"]["id"].as<int>();
-        map_name = map_yaml[count]["map"]["map_name"].as<std::string>();
+        map_name_ = map_yaml[count]["map"]["map_name_"].as<std::string>();
         pose_x = map_yaml[count]["map"]["pose_x"].as<double>();
         pose_y = map_yaml[count]["map"]["pose_y"].as<double>();
         orientation_z = map_yaml[count]["map"]["orientation_z"].as<double>();
@@ -38,6 +38,24 @@ bool MapChanger::read_yaml(){
     return true;
 }
 
+void MapChanger::initial_pose_set(float x, float y, float z, float w){
+    geometry_msgs::msg::PoseWithCovarianceStamped pose_msg;
+    pose_msg.header.stamp = this->get_clock()->now();
+    pose_msg.header.frame_id = "map";
+    pose_msg.pose.pose.position.x = x;
+    pose_msg.pose.pose.position.y = y;
+    pose_msg.pose.covariance[0] = 0.25;
+    pose_msg.pose.covariance[6 * 1 + 1] = 0.25;
+    pose_msg.pose.covariance[6 * 5 + 5] = 0.0685;
+    pose_msg.pose.pose.orientation.z = z;
+    pose_msg.pose.pose.orientation.z = w;
+
+    initial_pose_pub_->publish(pose_msg);
+}
+
+void MapChanger::call_map(){
+    
+}
 
 MapChanger::~MapChanger()
 {
