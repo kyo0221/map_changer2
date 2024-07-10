@@ -5,9 +5,12 @@
 
 #include "rclcpp/rclcpp.hpp"
 
+#include <std_msgs/String.h>
 #include <std_srvs/srv/set_bool.hpp>
 #include <nav2_msgs/srv/load_map.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <yaml-cpp/yaml.h>
+
 
 namespace map_changer2
 {
@@ -37,6 +40,7 @@ private:
 
   bool change_flag_;
   int map_id;
+  int count;
 };
 
 }  // namespace map_changer2
