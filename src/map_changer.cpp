@@ -38,7 +38,7 @@ bool MapChanger::read_yaml(){
     return true;
 }
 
-void MapChanger::initial_pose_set(float x, float y, float z, float w){
+void MapChanger::initial_pose_set(double x, double y, double z, double w){
     geometry_msgs::msg::PoseWithCovarianceStamped pose_msg;
     pose_msg.header.stamp = this->get_clock()->now();
     pose_msg.header.frame_id = "map";
@@ -54,11 +54,29 @@ void MapChanger::initial_pose_set(float x, float y, float z, float w){
 }
 
 void MapChanger::call_map(){
-    
+    if(change_flag_){
+        read_yaml();
+        initial_pose_set(pose_x, pose_y, orientation_z, orientation_w);
+
+        change_flag_ = false;
+        count++;
+    }
 }
 
-MapChanger::~MapChanger()
-{
+int main(int argc, char** argv){
+    rclcpp::init(argc, argv);
+
+    auto node = std::make_shared<MapChanger>();
+    bool read_result = node->read_yaml();
+
+    if(!read_result){
+        std::cerr << "read_yaml error" << std::endl;
+        return 1;
+    }else {
+        rclcpp::spin(node);
+        rclcpp::shutdown();
+        return 0;
+    }
 }
 
 }  // namespace map_changer2
