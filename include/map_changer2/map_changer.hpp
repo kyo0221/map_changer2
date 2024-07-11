@@ -51,11 +51,6 @@ private:
   double pose_y;
   double orientation_z;
   double orientation_w;
-
-  double x;
-  double y;
-  double z;
-  double w;
 };
 
 }  // namespace map_changer2
