@@ -22,11 +22,11 @@ class MapChanger : public rclcpp::Node
 public:
   explicit MapChanger(const rclcpp::NodeOptions& options = rclcpp::NodeOptions());
 
-  virtual ~MapChanger();
+  bool read_yaml();
+
 
 private:
-  bool read_yaml();
-  void initial_pose_set(float pose_x, float pose_y, float ori_z, float ori_w);
+  void initial_pose_set(double x, double y, double z, double w);
   void call_map();
   bool change_map_callback(const std::shared_ptr<std_srvs::srv::SetBool::Request> request,
                             std::shared_ptr<std_srvs::srv::SetBool::Response> response);
@@ -51,6 +51,11 @@ private:
   double pose_y;
   double orientation_z;
   double orientation_w;
+
+  double x;
+  double y;
+  double z;
+  double w;
 };
 
 }  // namespace map_changer2
