@@ -5,6 +5,10 @@ namespace map_changer2
 
 MapChanger::MapChanger(const rclcpp::NodeOptions& options) : rclcpp::Node("map_changer", options)
 {
+    change_call_ = this->create_service<std_srvs::srv::SetBool>(
+        "change_call", std::bind(&MapChanger::change_map_callback, this, std::placeholders::_1, std::placeholders::_2));
+    change_map_ = this->create_client<nav2_msgs::srv::LoadMap>("change_map");
+
     initial_pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/initialpose", 10);
 
     this->get_parameter("map_name", map_name_);
