@@ -16,30 +16,22 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_ros REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(nav2_msgs REQUIRED)
-find_package(std_srvs REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
 
-add_library(map_changer src/map_changer.cpp)
-target_include_directories(map_changer PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(
-  map_changer
-  "rclcpp"
-  "nav2_msgs"
-  "std_srvs"
-  "std_msgs"
-  "geometry_msgs"
+ament_auto_find_build_dependencies()
+
+ament_auto_add_executable(map_changer
+  src/map_changer.cpp
 )
 
-# Causes the visibility macros to use dllexport rather than dllimport,
-# which is appropriate when building the dll but not consuming it.
-target_compile_definitions(map_changer PRIVATE "MAP_CHANGER2_BUILDING_LIBRARY")
+target_link_libraries(map_changer yaml-cpp)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
 
 install(
   DIRECTORY include/
@@ -53,25 +45,8 @@ install(
   RUNTIME DESTINATION bin
 )
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
-
-ament_export_include_directories(
-  include
+ament_auto_package(
+  INSTALL_TO_SHARE
+  config
+  launch
 )
-ament_export_libraries(
-  map_changer
-)
-ament_export_targets(
-  export_${PROJECT_NAME}
-)
-
-ament_package()
