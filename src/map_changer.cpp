@@ -67,10 +67,13 @@ void MapChanger::call_map(){
     }
 }
 
+}  // namespace map_changer2
+
 int main(int argc, char** argv){
     rclcpp::init(argc, argv);
+    rclcpp::NodeOptions options;
 
-    auto node = std::make_shared<MapChanger>();
+    auto node = std::make_shared<map_changer2::MapChanger>(options);
     bool read_result = node->read_yaml();
 
     if(!read_result){
@@ -82,5 +85,3 @@ int main(int argc, char** argv){
         return 0;
     }
 }
-
-}  // namespace map_changer2
