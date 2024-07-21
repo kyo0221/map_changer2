@@ -15,7 +15,10 @@ def generate_launch_description():
 
     map_change_node = Node(
         package = 'map_changer2',
+        namespace = 'map_changer2'
         executable = 'map_changer',
         parameters = [config_file_path],
         output = 'screen'
     )
+
+    return launch.LaunchDescription([map_changer])
