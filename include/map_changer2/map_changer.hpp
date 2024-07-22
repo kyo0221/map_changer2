@@ -31,8 +31,9 @@ private:
   bool change_map_callback(const std::shared_ptr<std_srvs::srv::SetBool::Request> request,
                             std::shared_ptr<std_srvs::srv::SetBool::Response> response);
 
-  std::string map_name_;
-  std::string map_pass_;
+  std::string filename_;
+  std::string pass_;
+  std::string map_name;
 
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr initial_pose_pub_;
 
