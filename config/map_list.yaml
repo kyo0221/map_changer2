@@ -1,7 +1,16 @@
 map_list:
   - map:
     id: 0
-    pose_x:
-    pose_y:
-    orientation_z:
-    orientation_w:
+    map_name_: "config/map/3F-1.yaml"
+    pose_x: 1.0
+    pose_y: 2.0
+    orientation_z: 0.0
+    orientation_w: 1.0
+  
+  - map:
+    id: 1
+    map_name_: "config/map/3F-2.yaml"
+    pose_x: 3.0
+    pose_y: 4.0
+    orientation_z: 0.0
+    orientation_w: 1.0
