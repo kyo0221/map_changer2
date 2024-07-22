@@ -12,9 +12,6 @@ def generate_launch_description():
         'map_list.yaml'
     )
 
-    with open(config_file_path, 'r') as file:
-        launch_params = yaml.safe_load(file)['map_list']
-
     map_change_node = Node(
         package = 'map_changer2',
         namespace = 'map_changer2',
