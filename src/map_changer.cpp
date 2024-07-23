@@ -12,7 +12,6 @@ MapChanger::MapChanger(const rclcpp::NodeOptions& options) : rclcpp::Node("map_c
 
     initial_pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/initialpose", 10);
 
-    // this->get_parameter("filename", filename_);
     filename_ = ament_index_cpp::get_package_share_directory("map_changer2")+"/config/"+"map_list.yaml";
 }
 
@@ -66,6 +65,8 @@ void MapChanger::call_map(){
 
         change_flag_ = false;
         count++;
+    }else {
+        std::cerr << "No" << std::endl;
     }
 }
 
@@ -76,9 +77,9 @@ int main(int argc, char** argv){
     rclcpp::NodeOptions options;
 
     auto node = std::make_shared<map_changer2::MapChanger>(options);
-    bool read_result = node->read_yaml();
+    // bool read_result = node->read_yaml();
 
-    if(!read_result){
+    if(!true){
         std::cerr << "read_yaml error" << std::endl;
         return 1;
     }else {
