@@ -6,7 +6,7 @@ map_list:
     pose_y: 2.0
     orientation_z: 0.0
     orientation_w: 1.0
-  
+    
   - map:
     id: 1
     map_name: "config/map/3F-2.yaml"
