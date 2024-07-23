@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef MAP_CHANGER2__MAP_CHANGER_HPP_
 #define MAP_CHANGER2__MAP_CHANGER_HPP_
 
@@ -43,10 +45,9 @@ private:
   nav2_msgs::srv::LoadMap::Request map_req;
   nav2_msgs::srv::LoadMap::Response map_res;
 
-
   bool change_flag_;
   int map_id;
-  size_t count;
+  size_t count=0;
 
   double pose_x;
   double pose_y;
